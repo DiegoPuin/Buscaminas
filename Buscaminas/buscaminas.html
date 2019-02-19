@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta charste="utf-8">	
+		<title>Buscaminas</title>	
+		<link rel="stylesheet" href="./Css/estilos.css" >
+		<link href="https://fonts.googleapis.com/css?family=Felipa" rel="stylesheet"> 
+    	<script src="./Js/script.js"></script>
+	</head>
+	<body onload="cargarTablero();">
+		<h1>Buscaminas!</h1>
+		<div id="puntuacion" onload="puntuar();"></div>
+		<div id="puntuacionFinal" onload="puntuarFinal();"></div>
+		<div id="tablerominas" class="tablero"></div>
+		<input type="button" onclick="recargar();" value="Recargar">
+	</body>
+</html>
