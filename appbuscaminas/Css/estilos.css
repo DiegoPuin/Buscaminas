@@ -1,0 +1,57 @@
+body{
+	text-align: center;
+	height: 100%;
+    background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+h1{
+	font-size: 50px;
+	margin-bottom: 10;
+	font-family: 'Felipa', cursive;
+	color: #C8E5D1;
+}
+
+.tablero{
+	width: 416px;
+	height: 416px;								
+	margin-left: 33%;
+	margin-top: 20px;				
+}
+
+.tablero div{
+	background-color=RED;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #AADDC3;
+	float: left;			
+	font-size: 30;	
+	text-align: center;
+}
+
+input{
+	margin-top:10px;
+	width: 200px;
+	height: 40px;
+	border: 1px solid #AADDC3;
+	color: #C8E5D1;
+	background: none;
+	opacity: 1.5;
+}
+
+#puntuacion ,#puntuacionFinal{
+	display: inline-block;
+	color: #C8E5D1;
+	font-family: 'Felipa', cursive;
+	font-size: 20px;
+}
+
+#puntuacion{
+	margin-right: 20px;
+}
+
+#puntuacionFinal´{
+	margin-left: 20px;
+}
+
