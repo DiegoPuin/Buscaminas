@@ -7,10 +7,12 @@
 		<link href="https://fonts.googleapis.com/css?family=Felipa" rel="stylesheet"> 
     	<script src="./Js/script.js"></script>
 	</head>
-	<body onload="cargarTablero();">
+	<body onload="cargarTablero(2);">
 		<h1>Buscaminas!</h1>
+		<div id="tiempoJuego" onload="tiempoJuego();"></div>
 		<div id="puntuacion" onload="puntuar();"></div>
 		<div id="puntuacionFinal" onload="puntuarFinal();"></div>
+		<div id="cantidadMinas" onload="cantidadMinas();"></div>
 		<div id="tablerominas" class="tablero"></div>
 		<input type="button" onclick="recargar();" value="Recargar">
 	</body>
