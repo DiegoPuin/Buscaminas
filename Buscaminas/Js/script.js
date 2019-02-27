@@ -5,6 +5,7 @@ var contadorfinal = 0;
 var contadorAbriertos = 0;
 var dimension = 0;
 var cantidadMinas = 0;
+var segundosJugados = 0;
 
 function inicializaMatriz() {
 	var tabla = [];
@@ -28,36 +29,43 @@ function crearTablero() {
 			var div = document.createElement("div");
 			div.id = i + "" + j;
 			div.addEventListener("click", mostrarNumero, true);
+			div.oncontextmenu = agregarBandera;
 			tablerominas.appendChild(div);
 		}
 	}
 }
 
-function mostrarNumero(e) {
+function agregarBandera(){
+	this.style.backgroundImage = "url(Img/bandera.jpg)";
+	return false;
+}
+
+function mostrarNumero() {
 	var auxstr = this.id.split("");
 	var myid = auxstr[0] + auxstr[1];
 	divObj = document.getElementById(myid);
 
-	if (minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] == 0) {
-		divObj.style.backgroundColor = "white";
-		abrirAlrededor(parseInt(auxstr[0], 10), parseInt(auxstr[1], 10), minas);
-
-	} else {
-		if (minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] != "*") {
-			document.getElementById(myid).innerHTML = "<p style='margin-top:10px;'>" + minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] + "</p>";
+	if(divObj.style.backgroundColor != "white"){
+		if (minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] == 0) {
 			divObj.style.backgroundColor = "white";
-			var p = 10;
-			puntaje = puntaje + 10;
-			puntuar();
+			abrirAlrededor(parseInt(auxstr[0], 10), parseInt(auxstr[1], 10), minas);
+	
 		} else {
-			divObj.style.backgroundImage = "url(img/bomba.jpg)";
-			abrirTablero(minas);
-			puntaje = puntaje - 500;
-			puntuar();
-			var a = puntaje;
-			puntajeFinal = a;
-			puntuarFinal();
+			if (minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] != "*") {
+				document.getElementById(myid).innerHTML = "<p style='margin-top:10px;'>" + minas[parseInt(auxstr[0], 10)][parseInt(auxstr[1], 10)] + "</p>";
+				divObj.style.backgroundColor = "white";
+				puntaje = puntaje + 10;
+				puntuar();
+			} else {
+				divObj.style.backgroundImage = "url(img/bomba.jpg)";
+				abrirTablero(minas);
+				puntaje = puntaje - 500;
+				puntuar();
+				puntajeFinal = puntaje;
+				puntuarFinal();
+			}
 		}
+		comporbarBombas();
 	}
 }
 
@@ -68,7 +76,7 @@ function bombasAlrededor(tablero) {
 				if (i == 0 && j == 0) {
 					colocaNumeroBombas(i, j, i + 1, j + 1, tablero);
 				}
-				else if (i == 0 && (j > 0 && j < 7)) {
+				else if (i == 0 && (j > 0 && j < dimension-1)) {
 					colocaNumeroBombas(i, j - 1, i + 1, j + 1, tablero);
 				}
 				else if (i == 0 && j == dimension-1) {
@@ -206,13 +214,34 @@ function puntuar() {
 }
 
 function puntuarFinal() {
-	var pFinal = document.getElementById("puntuacionFinal");
-	pFinal.innerHTML = "Puntuacion Final:" + puntajeFinal;
-	if (contadorfinal == 1) {
-		var el = document.getElementById("puntuacion"); //se define la variable "el" igual a nuestro div
-		el.style.display = (el.style.display == 'none') ? 'block' : 'none';
+	if (contadorfinal == 0) {
+		var pFinal = document.getElementById("puntuacionFinal");
+		pFinal.innerHTML = "Puntuacion Final:" + puntajeFinal;
+		desactivarTablero();
 	}
-	contadorfinal = +1;
+	contadorfinal = contadorfinal+1;
+}
+
+function bonificarTiempo(){
+	if(dimension == 8){
+		return Math.floor(60000/segundosJugados);
+	}
+	if(dimension == 16){
+		return Math.floor(600000/segundosJugados);
+	}
+	if(dimension == 24){
+		return Math.floor(6000000/segundosJugados);
+	}
+}
+
+function desactivarTablero(){
+	for (var i=0; i<dimension; i++) {
+		for (var j=0; j<dimension; j++) {
+			var myid = i + "" + j;
+			var objDiv = document.getElementById(myid);
+			objDiv.removeEventListener("click", mostrarNumero, true);
+		}
+	}
 }
 
 function describirNivel(nivel){
@@ -231,16 +260,32 @@ function describirNivel(nivel){
 }
 
 function tiempoJuego(){
-	var s = 0;
 	var t = document.getElementById("tiempoJuego");
-	t.innerHTML = "Tiempo de Juego: 10 seg";
-	// window.setInterval(function(){
-	// 	t.innerHTML = "Tiempo de juego: " = s;
-	// 	s++;
-	// },1000);
+	window.setInterval(function(){
+		t.innerHTML = "Tiempo de Juego: " + segundosJugados + " seg.";
+		segundosJugados++;
+	},1000);
 }
 
-function cantidadMinas(){
+function comporbarBombas(){
+	var casillasdesbloq=0;
+	for(var i=0; i<dimension; i++){
+		for(var j=0; j<dimension; j++){	
+			var myid = i+""+j;
+			var objDiv =  document.getElementById(myid);		           
+			if(objDiv.style.backgroundColor=="white"){
+				casillasdesbloq=casillasdesbloq+1;
+			}
+		}
+	}
+	if(casillasdesbloq==Math.pow(dimension, 2)-cantidadMinas){
+		alert("!!!FELICITACIONES, NIVEL COMPLETADO!!! BONIFICACION DE " + segundosJugados + " SEGUNDOS")
+		puntajeFinal = puntaje + bonificarTiempo();
+		puntuarFinal(); 
+	}
+}
+
+function mostrarCantidadMinas(){
 	var texto = document.getElementById("cantidadMinas");
 	texto.innerHTML = "Cantidad De Minas:" + cantidadMinas;
 }
@@ -251,6 +296,6 @@ function cargarTablero(nivel) {
 	crearTablero();
 	generarBombas(minas);
 	bombasAlrededor(minas);
-	puntuar();
-	puntuarFinal();
+	tiempoJuego();
+	mostrarCantidadMinas();
 }	

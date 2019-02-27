@@ -15,10 +15,8 @@ h1{
 
 .tablero{
 	width: 416px;
-	height: 416px;						
+	height: 416px;								
 	margin-left: 33%;
-	/* width: 100%;  Para mapa nivel 3
-	height: 100%; */
 	margin-top: 20px;				
 }
 
@@ -41,17 +39,17 @@ input{
 	opacity: 1.5;
 }
 
-#tiempoJuego, #cantidadMinas, #puntuacion ,#puntuacionFinal{
+#puntuacion ,#puntuacionFinal, #tiempoJuego, #cantidadMinas{
 	display: inline-block;
 	color: #C8E5D1;
 	font-family: 'Felipa', cursive;
 	font-size: 20px;
 }
 
-#tiempoJuego, #puntuacion, #puntuacionFinal{
+#tiempoJuego, #puntuacion, #cantidadMinas{
 	margin-right: 20px;
 }
 
-#puntuacionFinal, #puntuacion, #cantidadMinas{
+#puntuacionFinal, #tiempoJuego, #puntuacion, #cantidadMinas{
 	margin-left: 20px;
 }
